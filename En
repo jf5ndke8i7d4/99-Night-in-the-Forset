@@ -58,9 +58,9 @@ if game.PlaceId == 79546208627805 then
 									wait(0.1)
 									HMNRT.Anchored = true
 								end
-							end						
+							end
 						end
-					end				
+					end
 				end
 			end
 
@@ -289,7 +289,7 @@ else
 
 	local NewOld_Axe = Old_Axe:Clone()
 	local OldAxe_WeldConstraint = Instance.new("WeldConstraint", NewOld_Axe.PrimaryPart)
-	NewOld_Axe.PrimaryPart.CFrame = HMNRT.CFrame * CFrame.new(0,-1,0)
+	NewOld_Axe.PrimaryPart.CFrame = HMNRT.CFrame * CFrame.new(1.2,1.2,-2)
 	OldAxe_WeldConstraint.Part0 = NewOld_Axe.PrimaryPart
 	OldAxe_WeldConstraint.Part1 = HMNRT
 	EquipItemHandle:FireServer(unpack(Old_Axe_args))
@@ -520,7 +520,7 @@ else
 			if AutoFarmGems == true then
 				if Map:FindFirstChild("Landmarks"):FindFirstChild("Stronghold") then
 					local Stronghold = Map:FindFirstChild("Landmarks"):FindFirstChild("Stronghold")
-					if Stronghold and Stronghold:FindFirstChild("Functional"):FindFirstChild("EntryDoors"):FindFirstChild("DoorRight"):FindFirstChild("Main"):FindFirstChild("ProximityAttachment"):FindFirstChild("ProximityInteraction") then
+					if Stronghold then
 						StrongHold_Locate = Stronghold
 						local Functional = Stronghold:FindFirstChild("Functional")
 						local TriggerZone1 = Functional:FindFirstChild("EnemyWaves12"):FindFirstChild("Wave1"):FindFirstChild("TriggerZone")
