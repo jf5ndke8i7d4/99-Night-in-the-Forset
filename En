@@ -16,7 +16,7 @@ local ScreenGui = Instance.new("ScreenGui", plrGui)
 task.spawn(function()
 	local Go_Back_To_Lobby = 0
 	while wait(1) do
-		if Go_Back_To_Lobby > 1300 then
+		if Go_Back_To_Lobby > 2400 then
 			repeat
 				humanoid.Health = 0
 				wait(0.1)
