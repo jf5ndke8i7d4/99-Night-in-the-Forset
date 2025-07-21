@@ -16,7 +16,7 @@ local ScreenGui = Instance.new("ScreenGui", plrGui)
 task.spawn(function()
 	local Go_Back_To_Lobby = 0
 	while wait(1) do
-		if Go_Back_To_Lobby > 2400 then
+		if Go_Back_To_Lobby > 1300 then
 			repeat
 				humanoid.Health = 0
 				wait(0.1)
@@ -81,14 +81,35 @@ if game.PlaceId == 79546208627805 then
 					end
 
 					if Buttin1 and CreateButton then
-						CreateButton.Position = UDim2.new(0.5, 0, 4.5, 0)
+						CreateButton.Position = UDim2.new(0.5, 0, 4.5, 0)						
+						task.spawn(function()
+							local RunService = game:GetService("RunService")
+							local VirtualInputManager = game:GetService("VirtualInputManager")
+							local clickInterval = 0.5
+							local duration = 3
+							local elapsed = 0
+							local connection
+							while wait(1) do
+								local screenSize = workspace.CurrentCamera.ViewportSize
+								local centerX = screenSize.X / 2
+								local centerY = screenSize.Y / 2
+								VirtualInputManager:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
+								wait(0.05)
+								VirtualInputManager:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
+								wait(0.05)
+								local offsetX = 3
+								VirtualInputManager:SendMouseButtonEvent(centerX + offsetX, centerY, 0, true, game, 0)
+								wait(0.05)
+								VirtualInputManager:SendMouseButtonEvent(centerX + offsetX, centerY, 0, false, game, 0)
+								wait(clickInterval)
+							end
+						end)
 						wait(10)
 						Buttin1.Visible = false
 					end
 
 				end
 			end
-
 			wait(2)
 		until Teleport == true
 		wait(10)
