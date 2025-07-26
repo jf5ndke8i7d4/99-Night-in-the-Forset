@@ -31,80 +31,97 @@ end)
 
 if game.PlaceId == 79546208627805 then
 
-	local Teleport = false
+	game:GetService("StarterGui"):SetCore("SendNotification", {
+		Title = "Lobby Mode",
+		Text = "V 0.0.1",
+		Duration = 10
+	})
 
-	repeat
-		local GotoEnterPart = false
-		for i=1,3 do
-			if workspace:FindFirstChild("Teleporter"..i) then
-				local Model_Teleport = workspace:FindFirstChild("Teleporter"..i)
-				if Model_Teleport:FindFirstChild("BillboardHolder") then
-					local BillboardHolder = Model_Teleport:FindFirstChild("BillboardHolder")
-					local Players = BillboardHolder:FindFirstChild("BillboardGui"):FindFirstChild("Players")
-					if Players.Text == "0/5" then
-						for _, item in ipairs(Model_Teleport:GetChildren()) do
-							if item.Name == "EnterPart" and GotoEnterPart == false then
-								HMNRT.CFrame = item.CFrame
-								GotoEnterPart = true
+	while true do
+		local Teleport = false
+
+		repeat
+			local GotoEnterPart = false
+			for i=1,3 do
+				if workspace:FindFirstChild("Teleporter"..i) then
+					local Model_Teleport = workspace:FindFirstChild("Teleporter"..i)
+					if Model_Teleport:FindFirstChild("BillboardHolder") then
+						local BillboardHolder = Model_Teleport:FindFirstChild("BillboardHolder")
+						local Players = BillboardHolder:FindFirstChild("BillboardGui"):FindFirstChild("Players")
+						if Players.Text == "0/5" then
+							for _, item in ipairs(Model_Teleport:GetChildren()) do
+								if item.Name == "EnterPart" and GotoEnterPart == false then
+									HMNRT.Anchored = false
+									wait(0.1)
+									HMNRT.CFrame = item.CFrame
+									GotoEnterPart = true
+									wait(0.1)
+									HMNRT.Anchored = true
+								end
 							end
-						end						
-					end
-				end				
-			end
-		end
-
-		if GotoEnterPart == true then
-			local LobbyCreate = plrGui:FindFirstChild("Interface"):FindFirstChild("LobbyCreate")
-			local ButtonList = LobbyCreate:FindFirstChild("ButtonList")
-			local CreateButton = LobbyCreate:FindFirstChild("HeaderFrame"):FindFirstChild("CreateButton")
-
-			local Buttin1 = nil
-
-			if ButtonList and LobbyCreate then
-				for _, item in ipairs(ButtonList:GetChildren()) do
-					if item.Name ~= "Button1" then
-						item:Destroy()
-					else
-						Buttin1 = item
-					end
-				end
-
-				if Buttin1 and CreateButton then
-					CreateButton.Position = UDim2.new(0.5, 0, 4.5, 0)
-					task.spawn(function()
-						local RunService = game:GetService("RunService")
-						local VirtualInputManager = game:GetService("VirtualInputManager")
-						local clickInterval = 0.5
-						local duration = 3
-						local elapsed = 0
-						local connection
-						while wait(1) do
-							local screenSize = workspace.CurrentCamera.ViewportSize
-							local centerX = screenSize.X / 2
-							local centerY = screenSize.Y / 2
-							VirtualInputManager:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
-							wait(0.05)
-							VirtualInputManager:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
-							wait(0.05)
-							local offsetX = 3
-							VirtualInputManager:SendMouseButtonEvent(centerX + offsetX, centerY, 0, true, game, 0)
-							wait(0.05)
-							VirtualInputManager:SendMouseButtonEvent(centerX + offsetX, centerY, 0, false, game, 0)
-							wait(clickInterval)
 						end
-					end)
-					wait(5)
-					Buttin1.Visible = false
+					end
 				end
-
 			end
-		end
 
-		wait(2)
-	until Teleport == true
+			if GotoEnterPart == true then
+				local LobbyCreate = plrGui:FindFirstChild("Interface"):FindFirstChild("LobbyCreate")
+				local ButtonList = LobbyCreate:FindFirstChild("ButtonList")
+				local CreateButton = LobbyCreate:FindFirstChild("HeaderFrame"):FindFirstChild("CreateButton")
 
+				local Buttin1 = nil
 
+				if ButtonList and LobbyCreate then
+					for _, item in ipairs(ButtonList:GetChildren()) do
+						if item.Name ~= "Button1" then
+							item:Destroy()
+						else
+							Buttin1 = item
+						end
+					end
+
+					if Buttin1 and CreateButton then
+						CreateButton.Position = UDim2.new(0.5, 0, 4.5, 0)						
+						task.spawn(function()
+							local RunService = game:GetService("RunService")
+							local VirtualInputManager = game:GetService("VirtualInputManager")
+							local clickInterval = 0.5
+							local duration = 3
+							local elapsed = 0
+							local connection
+							while wait(1) do
+								local screenSize = workspace.CurrentCamera.ViewportSize
+								local centerX = screenSize.X / 2
+								local centerY = screenSize.Y / 2
+								VirtualInputManager:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
+								wait(0.05)
+								VirtualInputManager:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
+								wait(0.05)
+								local offsetX = 3
+								VirtualInputManager:SendMouseButtonEvent(centerX + offsetX, centerY, 0, true, game, 0)
+								wait(0.05)
+								VirtualInputManager:SendMouseButtonEvent(centerX + offsetX, centerY, 0, false, game, 0)
+								wait(clickInterval)
+							end
+						end)
+						wait(10)
+						Buttin1.Visible = false
+					end
+
+				end
+			end
+			wait(2)
+		until Teleport == true
+		wait(10)
+	end
 else
+
+	game:GetService("StarterGui"):SetCore("SendNotification", {
+		Title = "Game Mode",
+		Text = "Wait Start",
+		Duration = 10
+	})
+
 	local function MakeTextButton(Parent, Size, Posi, BGtran, Color, Text)
 		local NewFrame = Instance.new("TextButton", Parent)
 		NewFrame.Position = Posi
@@ -305,7 +322,7 @@ else
 
 	local NewOld_Axe = Old_Axe:Clone()
 	local OldAxe_WeldConstraint = Instance.new("WeldConstraint", NewOld_Axe.PrimaryPart)
-	NewOld_Axe.PrimaryPart.CFrame = HMNRT.CFrame * CFrame.new(0,-1,0)
+	NewOld_Axe.PrimaryPart.CFrame = HMNRT.CFrame * CFrame.new(1.2,1.2,-2)
 	OldAxe_WeldConstraint.Part0 = NewOld_Axe.PrimaryPart
 	OldAxe_WeldConstraint.Part1 = HMNRT
 	EquipItemHandle:FireServer(unpack(Old_Axe_args))
@@ -316,7 +333,7 @@ else
 
 	local Stop_Evreything = false
 
-	Create_Log("สร้างตัวแปรเสร็จสิ้น")
+	Create_Log("เซ็ททุกฟังชั่น")
 
 	task.spawn(function()
 		local Bandage_Count = 0
@@ -371,22 +388,24 @@ else
 			end
 		end
 	end)
-
 	task.spawn(function()
 		local AcceptPlayAgain = game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):FindFirstChild("AcceptPlayAgain")
-		while wait(0.01) do
+
+		while wait(0.05) do
 			pcall(function()
 				if humanoid.Health <= 0 then
 					Create_Log("เล่นอีกรอบ")
 					for i=1,100 do
 						AcceptPlayAgain:FireServer()
-						wait(0.05)
+						wait(0.1)
 					end
+				end
+				if humanoid.Health < 40 then
+					Stop_Evreything = true
 				end
 			end)
 		end
 	end)
-
 	task.spawn(function()
 		local HungerBar = plrGui:WaitForChild("Interface"):WaitForChild("StatBars"):WaitForChild("HungerBar"):FindFirstChild("Bar")
 		while wait(1) do
@@ -438,7 +457,7 @@ else
 					if Model.Name == "Coal" or Model.Name == "Log" then
 						if matchesAllowedKeyword(Fire_TextLabel.Text, {"Level 5"}) then
 							if AutoFarmGems == false then
-								Create_Log("กองไฟถึงเลเวล 5 ")
+								Create_Log("กองไฟเลเวล 5 ")
 							end						
 							Auto_Add_Feul = false
 							AutoFarmGems = true -- true
@@ -446,7 +465,7 @@ else
 						else
 							if Auto_Add_Feul == true and Model.PrimaryPart then
 								pcall(function()
-									Create_Log("เติมไฟ")
+									Create_Log("ใส่ฟืน")
 									wait(0.2)
 									local mainPart = Model.PrimaryPart
 									HMNRT.CFrame = mainPart.CFrame * CFrame.new(0,10,0)
@@ -470,11 +489,9 @@ else
 			end
 		end
 	end)
-
 	local StrongHold_Locate = nil
 	local OnTopEnameis = false
 	local SpinFind_StrongHold = false
-
 	task.spawn(function()
 		local ToolDamageObject = game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):FindFirstChild("ToolDamageObject")
 		while wait(0.1) do
@@ -511,11 +528,9 @@ else
 			end
 		end
 	end)
-
 	local orbitTime = 0
 	local orbitRadius = 10
 	local orbitSpeed = 100
-
 	RunService.RenderStepped:Connect(function(dt)
 		if Stop_Evreything == false then
 			pcall(function()
@@ -532,14 +547,13 @@ else
 			end)
 		end
 	end)
-
 	task.spawn(function()
 		local RequestTakeDiamonds = game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):FindFirstChild("RequestTakeDiamonds")
 		while wait(0.1) do
 			if AutoFarmGems == true then
 				if Map:FindFirstChild("Landmarks"):FindFirstChild("Stronghold") then
 					local Stronghold = Map:FindFirstChild("Landmarks"):FindFirstChild("Stronghold")
-					if Stronghold and Stronghold:FindFirstChild("Functional"):FindFirstChild("EntryDoors"):FindFirstChild("DoorRight"):FindFirstChild("Main"):FindFirstChild("ProximityAttachment"):FindFirstChild("ProximityInteraction") then
+					if Stronghold then
 						StrongHold_Locate = Stronghold
 						local Functional = Stronghold:FindFirstChild("Functional")
 						local TriggerZone1 = Functional:FindFirstChild("EnemyWaves12"):FindFirstChild("Wave1"):FindFirstChild("TriggerZone")
@@ -607,7 +621,7 @@ else
 					end
 				else
 					if StrongHold_Locate == nil then
-						Create_Log("หาสตรองโฮล")
+						Create_Log("หาสตรองโฮว")
 						SpinFind_StrongHold = true
 						wait(5)
 						SpinFind_StrongHold = false
