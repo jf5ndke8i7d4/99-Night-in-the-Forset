@@ -16,7 +16,7 @@ local ScreenGui = Instance.new("ScreenGui", plrGui)
 task.spawn(function()
 	local Go_Back_To_Lobby = 0
 	while wait(1) do
-		if Go_Back_To_Lobby > 1300 then
+		if Go_Back_To_Lobby > 2400 then
 			repeat
 				humanoid.Health = 0
 				wait(0.1)
@@ -227,6 +227,7 @@ else
 	end)
 	task.spawn(function()
 		local Count = plrGui:WaitForChild("Interface"):WaitForChild("DiamondCount"):FindFirstChild("Count")
+		local NowMeDiamon = nil
 		while wait(0.1) do
 			pcall(function()
 				if LogFrame:FindFirstChild("Delete_in_" .. math.floor(Tick_Log_Delete)) then
@@ -244,6 +245,17 @@ else
 			Tick_Log_Delete = Tick_Log_Delete + 0.1
 			if Count then
 				DiamonCount.Text = Count.Text
+				if NowMeDiamon == nil then
+					NowMeDiamon = Count.Text
+				end
+				if tonumber(Count.Text) == (NowMeDiamon + 5) then
+					repeat
+						humanoid.Health = 0
+						wait(0.1)
+					until humanoid.Health == 0
+					wait(20)
+					game:GetService("TeleportService"):Teleport(79546208627805)
+				end
 			end
 		end
 	end)
