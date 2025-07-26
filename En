@@ -246,7 +246,7 @@ else
 			if Count then
 				DiamonCount.Text = Count.Text
 				if NowMeDiamon == nil then
-					NowMeDiamon = Count.Text
+					NowMeDiamon = tonumber(Count.Text)
 				end
 				if tonumber(Count.Text) == (NowMeDiamon + 5) then
 					repeat
