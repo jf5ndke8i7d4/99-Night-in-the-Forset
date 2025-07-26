@@ -33,7 +33,7 @@ if game.PlaceId == 79546208627805 then
 	
 	game:GetService("StarterGui"):SetCore("SendNotification", {
 		Title = "Lobby Mode",
-		Text = "V 0.0.1",
+		Text = "V 0.0.3",
 		Duration = 10
 	})
 	
