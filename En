@@ -216,7 +216,7 @@ else--InGame
 	local SlideText = MakeText(MainFrame, UDim2.new(0, 351,0, 28), UDim2.new(0.282, 0,0.25, 0), 1, Color3.new(1, 1, 1), true, "")
 
 	local Tick_Log_Delete = 0
-	local fullText = "                    99 Night Auto Farm                    Buy key with discord wexcea                    "
+	local fullText = "                    99 Night Auto Farm                    Buy key with discord wexcea                    Script By Somank.                    "
 	task.spawn(function()
 		local windowSize = 20
 		pcall(function()
@@ -224,7 +224,7 @@ else--InGame
 				for i = 1, #fullText - windowSize + 1 do
 					local view = fullText:sub(i, i + windowSize - 1)
 					SlideText.Text = view
-					wait(0.1)
+					wait(0.07)
 				end
 			end
 		end)
@@ -323,60 +323,11 @@ else--InGame
 
 	local RequestHotbarItem = game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):FindFirstChild("RequestHotbarItem")
 	local RequestConsumeItem = game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):FindFirstChild("RequestConsumeItem")
+	local AcceptPlayAgain = game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):FindFirstChild("AcceptPlayAgain")
+	local HungerBar = plrGui:WaitForChild("Interface"):WaitForChild("StatBars"):WaitForChild("HungerBar"):FindFirstChild("Bar")
 	
 	Create_Log("Set All Funtion")
-
-	task.spawn(function()
-		local AcceptPlayAgain = game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):FindFirstChild("AcceptPlayAgain")
-		while wait(0.05) do
-			pcall(function()
-				if humanoid.Health <= 0 then
-					Create_Log("Play again")
-					for i=1,100 do
-						AcceptPlayAgain:FireServer()
-						wait(0.1)
-					end
-				end
-				if humanoid.Health < 40 then
-					Stop_Evreything = true
-				end
-			end)
-		end
-	end)
-	task.spawn(function()
-		local HungerBar = plrGui:WaitForChild("Interface"):WaitForChild("StatBars"):WaitForChild("HungerBar"):FindFirstChild("Bar")
-		while wait(1) do
-			if HungerBar and HungerBar.Size.X.Scale < 0.2 then
-				Auto_FOOD = true
-			end
-			if Auto_FOOD == true and Stop_Evreything == false then
-				for _, Model in ipairs(workspace.Items:GetChildren()) do
-					if Model.Name == "Carrot" or Model.Name == "Berry" then
-						pcall(function()
-							Create_Log("Eat " .. Model.Name)
-							if Auto_FOOD == true and Stop_Evreything == false and Model.PrimaryPart then
-								wait(0.1)
-								HMNRT.CFrame = Model.PrimaryPart.CFrame * CFrame.new(0,10,0)
-								wait(0.1)
-								RequestStartDraggingItem:FireServer(Model)
-								wait(0.1)
-								RequestConsumeItem:InvokeServer(Model)
-								wait(0.1)
-								StopDraggingItem:FireServer(Model)
-								wait(0.1)
-								RequestStartDraggingItem:FireServer(Model)
-								wait(0.1)
-								StopDraggingItem:FireServer(Model)
-								if HungerBar.Size.X.Scale > 0.9 then
-									Auto_FOOD = false
-								end
-							end
-						end)
-					end
-				end
-			end
-		end
-	end)
+	
 	local function matchesAllowedKeyword(value, allowedKeywords)
 		value = value:lower()
 		for _, keyword in ipairs(allowedKeywords) do
@@ -386,6 +337,107 @@ else--InGame
 		end
 		return false
 	end
+	
+	local OldCFrame_Bring = HMNRT.CFrame
+	local FastBring_Delay = 0.08
+	local function BringItemWithItem2(item2)
+		pcall(function()
+			humanoid:MoveTo(item2.PrimaryPart.Position)
+			HMNRT.CFrame = item2.PrimaryPart.CFrame * CFrame.new(math.random(-3,3),5,math.random(-3,3))
+			wait(FastBring_Delay)
+			HMNRT.CFrame = item2.PrimaryPart.CFrame * CFrame.new(math.random(-3,3),5,math.random(-3,3))
+			wait(FastBring_Delay)
+			HMNRT.CFrame = item2.PrimaryPart.CFrame * CFrame.new(math.random(-3,3),5,math.random(-3,3))
+			wait(FastBring_Delay)
+			HMNRT.CFrame = item2.PrimaryPart.CFrame * CFrame.new(math.random(-3,3),5,math.random(-3,3))
+			wait(FastBring_Delay)
+			HMNRT.CFrame = item2.PrimaryPart.CFrame
+			wait(FastBring_Delay)
+
+			if item2.Name == "Carrot" then
+				for i=1,5 do
+					pcall(function()
+						RequestStartDraggingItem:FireServer(item2)
+						wait(FastBring_Delay)
+					end)
+				end
+			else
+				RequestStartDraggingItem:FireServer(item2)
+			end
+
+			wait(FastBring_Delay)
+			item2.PrimaryPart.CFrame = OldCFrame_Bring * CFrame.new(0,-1,0)
+
+			HMNRT.CFrame = OldCFrame_Bring
+			wait(FastBring_Delay)
+			StopDraggingItem:FireServer(item2)
+			HMNRT.CFrame = OldCFrame_Bring
+			wait(FastBring_Delay)
+			StopDraggingItem:FireServer(item2)
+			HMNRT.CFrame = OldCFrame_Bring
+			wait(FastBring_Delay)
+			StopDraggingItem:FireServer(item2)
+		end)
+	end
+
+	task.spawn(function()
+		while wait(0.05) do
+			pcall(function()
+				if humanoid.Health <= 0 then
+					Create_Log("Play again")
+					for i=1,10 do
+						AcceptPlayAgain:FireServer()
+						wait(0.1)
+					end
+				end
+			end)
+		end
+	end)
+	
+	task.spawn(function()
+		local Food_Count = 0
+		local Status = "Farm"
+		while wait(1) do
+			if HungerBar and HungerBar.Size.X.Scale < 0.8 then
+				Auto_FOOD = true
+			end
+			if Auto_FOOD == true then
+				OldCFrame_Bring = HMNRT.CFrame
+				if Status == "Farm" then
+					for _, item2 in ipairs(Items:GetChildren()) do
+						pcall(function()
+							if matchesAllowedKeyword(item2.Name, {"Carrot"}) and item2.PrimaryPart and Food_Count < 40 then
+								BringItemWithItem2(item2)
+								wait()
+								Food_Count = Food_Count + 1
+								Create_Log("Get Food "..Food_Count)
+							end
+						end)
+					end
+					Status = "Eat"
+				elseif Status == "Eat" then
+					for _, Model in ipairs(workspace.Items:GetChildren()) do
+						pcall(function()
+							if matchesAllowedKeyword(Model.Name, {"Carrot", "Berry"}) then
+								Create_Log("Eat "..Model.Name)
+								if Auto_FOOD == true and Model.PrimaryPart then
+									RequestStartDraggingItem:FireServer(Model)
+									wait(0.1)
+									RequestConsumeItem:InvokeServer(Model)
+									wait(0.1)
+									StopDraggingItem:FireServer(Model)
+									if HungerBar.Size.X.Scale > 0.9 then
+										Auto_FOOD = false
+									end
+								end
+							end
+						end)
+					end
+				end
+			end
+		end
+	end)
+	
 	task.spawn(function()
 		local Fire_TextLabel = Map:WaitForChild("Campground"):WaitForChild("MainFire"):WaitForChild("Center"):WaitForChild("BillboardGui"):WaitForChild("Frame"):WaitForChild("TextLabel")
 		while wait(1) do
@@ -449,7 +501,7 @@ else--InGame
 						end
 					end)
 				end
-				if nearest and nearestDistance < 120 and Auto_FOOD == false and Stop_Evreything == false then
+				if nearest and nearestDistance < 120 and Auto_FOOD == false then
 					pcall(function()
 						local Humanoid = nearest:FindFirstChild("NPC")
 						local RootPart = nearest:FindFirstChild("HumanoidRootPart")
@@ -468,20 +520,18 @@ else--InGame
 	local orbitRadius = 10
 	local orbitSpeed = 100
 	RunService.RenderStepped:Connect(function(dt)
-		if Stop_Evreything == false then
-			pcall(function()
-				if not SpinFind_StrongHold or not InnerTouchZone then return end
-				orbitTime = orbitTime + dt
-				local angle = math.rad(orbitSpeed) * orbitTime
-				local offset = Vector3.new(math.cos(angle) * orbitRadius, 100, math.sin(angle) * orbitRadius)
-				local newPos = InnerTouchZone.Position + offset
-				if HMNRT then
-					HMNRT.CFrame = CFrame.new(newPos)
-					orbitRadius = orbitRadius + 2
-					orbitSpeed = orbitSpeed + 0.0001
-				end
-			end)
-		end
+		pcall(function()
+			if not SpinFind_StrongHold or not InnerTouchZone then return end
+			orbitTime = orbitTime + dt
+			local angle = math.rad(orbitSpeed) * orbitTime
+			local offset = Vector3.new(math.cos(angle) * orbitRadius, 100, math.sin(angle) * orbitRadius)
+			local newPos = InnerTouchZone.Position + offset
+			if HMNRT then
+				HMNRT.CFrame = CFrame.new(newPos)
+				orbitRadius = orbitRadius + 2
+				orbitSpeed = orbitSpeed + 0.0001
+			end
+		end)
 	end)
 	task.spawn(function()
 		local RequestTakeDiamonds = game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):FindFirstChild("RequestTakeDiamonds")
@@ -503,11 +553,6 @@ else--InGame
 									repeat
 										wait(0.1)
 									until Auto_FOOD == false
-								end
-								if Stop_Evreything == true then
-									repeat
-										wait(0.1)
-									until Stop_Evreything == false
 								end
 								if Main and Main:FindFirstChild("ProximityAttachment") then
 									local ProximityAttachment = Main:FindFirstChild("ProximityAttachment")
