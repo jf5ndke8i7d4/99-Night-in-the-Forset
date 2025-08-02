@@ -342,16 +342,13 @@ else--InGame
 	local FastBring_Delay = 0.08
 	local function BringItemWithItem2(item2)
 		pcall(function()
-			humanoid:MoveTo(item2.PrimaryPart.Position)
-			HMNRT.CFrame = item2.PrimaryPart.CFrame * CFrame.new(math.random(-3,3),5,math.random(-3,3))
+			humanoid.HipHeight = 16
+			
+			HMNRT.CFrame = CFrame.new(item2.PrimaryPart.Position) * CFrame.new(0,16,0)
 			wait(FastBring_Delay)
-			HMNRT.CFrame = item2.PrimaryPart.CFrame * CFrame.new(math.random(-3,3),5,math.random(-3,3))
 			wait(FastBring_Delay)
-			HMNRT.CFrame = item2.PrimaryPart.CFrame * CFrame.new(math.random(-3,3),5,math.random(-3,3))
+			HMNRT.CFrame = CFrame.new(item2.PrimaryPart.Position) * CFrame.new(0,16,0)
 			wait(FastBring_Delay)
-			HMNRT.CFrame = item2.PrimaryPart.CFrame * CFrame.new(math.random(-3,3),5,math.random(-3,3))
-			wait(FastBring_Delay)
-			HMNRT.CFrame = item2.PrimaryPart.CFrame
 			wait(FastBring_Delay)
 
 			if item2.Name == "Carrot" then
@@ -377,6 +374,8 @@ else--InGame
 			HMNRT.CFrame = OldCFrame_Bring
 			wait(FastBring_Delay)
 			StopDraggingItem:FireServer(item2)
+			
+			humanoid.HipHeight = 0
 		end)
 	end
 
@@ -398,7 +397,7 @@ else--InGame
 		local Food_Count = 0
 		local Status = "Farm"
 		while wait(1) do
-			if tonumber(HungerBar.Size.X.Scale) < 0.4 then
+			if tonumber(HungerBar.Size.X.Scale) < 0.3 then
 				Auto_FOOD = true
 			end
 			if Auto_FOOD == true then
