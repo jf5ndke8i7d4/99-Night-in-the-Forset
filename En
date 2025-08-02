@@ -13,7 +13,7 @@ local plrGui = player.PlayerGui
 
 local ScreenGui = Instance.new("ScreenGui", plrGui)
 
-queue_on_teleport(string.format([[loadstring(game:HttpGet('https://raw.githubusercontent.com/jf5ndke8i7d4/99-Night-in-the-Forset/refs/heads/main/test'))()]]))
+--queue_on_teleport(string.format([[loadstring(game:HttpGet('https://raw.githubusercontent.com/jf5ndke8i7d4/99-Night-in-the-Forset/refs/heads/main/test'))()]]))
 
 task.spawn(function()
 	local Go_Back_To_Lobby = 0
